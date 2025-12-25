@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#dedede"
     },
     inputLabel: {
-        fontSize: 14,
+        fontSize: 24,
         color: 'rgba(0, 0, 0, 0.5)'
     },
     textInput: {

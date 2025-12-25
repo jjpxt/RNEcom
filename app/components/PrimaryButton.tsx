@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         opacity: 0.5
     },
     title: {
-        fontSize: 18,
+        fontSize: 28,
         color: "black",
         fontWeight: "bold",
         textAlign: "center",
