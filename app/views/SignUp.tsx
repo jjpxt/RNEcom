@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import FormContainer from '../components/FormContainer';
 import FormInput from '../components/FormInput';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { AuthStackNavigator } from '../../App';
+import { AuthStackNavigator } from '../navigation/AuthNavigator';
 
 interface Props { }
 

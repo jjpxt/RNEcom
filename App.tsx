@@ -1,33 +1,42 @@
-import { FC } from "react";
-import { createStaticNavigation } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
-import SignIn from "./app/views/SignIn";
-import SignUp from "./app/views/SignUp";
+import { FC, useEffect } from "react";
+import AuthNavigator from "./app/navigation/AuthNavigator";
+import { DefaultTheme, Theme } from "@react-navigation/native";
+import axios from "axios";
+import { API_URL } from "@env";
 
 interface Props { }
 
-export type AuthStackNavigator = {
-  SignIn: undefined,
-  SignUp: undefined
-}
-
-const AuthStack = createNativeStackNavigator<AuthStackNavigator>({
-  initialRouteName: "SignIn",
-  screens: {
-    SignIn: {
-      screen: SignIn,
-    },
-    SignUp: {
-      screen: SignUp,
-    },
+const AppTheme: Theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: "#FFF",
   },
-});
-
-const Navigation = createStaticNavigation(AuthStack);
+};
 
 const App: FC<Props> = () => {
-  return <Navigation />;
+  useEffect(() => {
+    const fetchServerNote = async () => {
+      try {
+        const res = await axios.get(API_URL);
+        console.log("server note:", res.data);
+      } catch (err: any) {
+        console.error("request error:", err.message);
+        if (err.code === "ERR_NETWORK") {
+          console.error("check if server is running");
+        }
+      }
+    };
+
+    if (!API_URL) {
+      console.error("API_URL is not defined");
+      return;
+    }
+
+    fetchServerNote();
+  }, []);
+
+  return <AuthNavigator theme={AppTheme} />;
 };
 
 export default App;
