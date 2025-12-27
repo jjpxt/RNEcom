@@ -1,51 +1,86 @@
+/* eslint-disable no-catch-shadow */
 import { FC, useState } from 'react';
 import FormContainer from '../components/FormContainer';
 import FormInput from '../components/FormInput';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { AuthStackNavigator } from '../navigation/AuthNavigator';
+import { API_URL } from '@env';
+import axios, { AxiosError } from 'axios';
+import ErrorMessage from '../components/ErrorMessage';
 
 interface Props { }
 
-const SignUp: FC<Props> = () => {
+export type errorType = Record<string, string[] | undefined>
 
-    const [signIUpInfo, setSignUpInfo] = useState({
-        name: "",
-        email: "",
-        password: ""
+const SignUp: FC<Props> = () => {
+    const [signUpInfo, setSignUpInfo] = useState({
+        name: '',
+        email: '',
+        password: '',
     });
+
+    const [errors, setErrors] = useState<errorType>({});
+    const [error, setError] = useState("");
 
     const navigation = useNavigation<NavigationProp<AuthStackNavigator>>();
 
+    const handleSubmit = async () => {
+        setError("");
+        setErrors({});
+        try {
+            const url = API_URL;
+            const { data } = await axios.post(`${url}/auth/sign-up`, signUpInfo);
+            console.log('API response:', data);
+            // eslint-disable-next-line @typescript-eslint/no-shadow
+        } catch (error: any) {
+            if (error instanceof AxiosError) {
+                const responseData = error.response?.data;
+                if (responseData.errors)
+                    setErrors(error.response?.data.errors);
+                if (responseData.error)
+                    setError(responseData.error);
+            }
+        }
+    };
+
     return (
         <FormContainer
-            onLinkPress={() => {
-                navigation.navigate("SignIn")
-            }}
-            btnTitle="Sign Up" navLinkTitle="I already have an account">
-            <FormInput label="Name"
+            onSubmit={handleSubmit}
+            btnTitle="Sign Up"
+            navLinkTitle="I already have an account"
+            onLinkPress={() => navigation.navigate('SignIn')}
+        >
+            {error ? <ErrorMessage size={22} message={error} /> : null}
+            <FormInput
+                label="Name"
                 placeholder="Insert your name"
-                onChangeText={name => {
-                    setSignUpInfo({ ...signIUpInfo, email: name })
-                }}
+                errors={errors.name}
+                onChangeText={(text) =>
+                    setSignUpInfo({ ...signUpInfo, name: text })
+                }
             />
-            <FormInput label="Email"
+            <FormInput
+                label="Email"
                 placeholder="email@email.com"
                 autoCapitalize="none"
+                errors={errors.email}
                 keyboardType="email-address"
-                onChangeText={email => {
-                    setSignUpInfo({ ...signIUpInfo, email })
-                }}
+                onChangeText={(text) =>
+                    setSignUpInfo({ ...signUpInfo, email: text })
+                }
             />
-            <FormInput label="Password"
+            <FormInput
+                label="Password"
                 placeholder="*******"
                 autoCapitalize="none"
+                errors={errors.password}
                 secureTextEntry
-                onChangeText={password => {
-                    setSignUpInfo({ ...signIUpInfo, password })
-                }}
+                onChangeText={(text) =>
+                    setSignUpInfo({ ...signUpInfo, password: text })
+                }
             />
         </FormContainer>
-    )
-}
+    );
+};
 
 export default SignUp;
