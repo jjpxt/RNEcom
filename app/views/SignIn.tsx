@@ -7,6 +7,7 @@ import { AuthStackNavigator } from "../navigation/AuthNavigator";
 import { errorType } from "./SignUp";
 import axios, { AxiosError } from "axios";
 import { API_URL } from "@env";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface Props { };
 
@@ -29,7 +30,7 @@ const SignIn: FC<Props> = () => {
         try {
             const url = API_URL;
             const { data } = await axios.post(`${url}/auth/sign-in`, signInInfo);
-            console.log('API response:', data);
+            await AsyncStorage.setItem("auth_token", data.token)
             navigation.navigate("Home", { profile: data.profile });
         } catch (error) {
             if (error instanceof AxiosError) {
