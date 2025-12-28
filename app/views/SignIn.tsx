@@ -5,9 +5,8 @@ import FormContainer from "../components/FormContainer";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { AuthStackNavigator } from "../navigation/AuthNavigator";
 import { errorType } from "./SignUp";
-import axios, { AxiosError } from "axios";
-import { API_URL } from "@env";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AxiosError } from "axios";
+import { useAuth } from "../context/AuthProvider";
 
 interface Props { };
 
@@ -23,15 +22,13 @@ const SignIn: FC<Props> = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [error, setError] = useState("");
     const navigation = useNavigation<NavigationProp<AuthStackNavigator>>();
+    const { login } = useAuth()
 
     const handleSubmit = async () => {
         setError("");
         setErrors({});
         try {
-            const url = API_URL;
-            const { data } = await axios.post(`${url}/auth/sign-in`, signInInfo);
-            await AsyncStorage.setItem("auth_token", data.token)
-            navigation.navigate("Home", { profile: data.profile });
+            await login(signInInfo)
         } catch (error) {
             if (error instanceof AxiosError) {
                 const responseData = error.response?.data;

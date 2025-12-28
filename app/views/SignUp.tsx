@@ -7,6 +7,8 @@ import { AuthStackNavigator } from '../navigation/AuthNavigator';
 import { API_URL } from '@env';
 import axios, { AxiosError } from 'axios';
 import ErrorMessage from '../components/ErrorMessage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAuth } from '../context/AuthProvider';
 
 interface Props { }
 
@@ -21,16 +23,18 @@ const SignUp: FC<Props> = () => {
 
     const [errors, setErrors] = useState<errorType>({});
     const [error, setError] = useState("");
-
     const navigation = useNavigation<NavigationProp<AuthStackNavigator>>();
+    const { login } = useAuth();
 
     const handleSubmit = async () => {
         setError("");
         setErrors({});
         try {
             const url = API_URL;
-            const { data } = await axios.post(`${url}/auth/sign-up`, signUpInfo);
-            console.log('API response:', data);
+            await axios.post(`${url}/auth/sign-up`, signUpInfo);
+            const { data } = await axios.post(`${url}/auth/sign-in`, { email: signUpInfo.email, password: signUpInfo.password });
+            await AsyncStorage.setItem("auth_token", data.token)
+            await login({ email: signUpInfo.email, password: signUpInfo.password })
             // eslint-disable-next-line @typescript-eslint/no-shadow
         } catch (error: any) {
             if (error instanceof AxiosError) {
