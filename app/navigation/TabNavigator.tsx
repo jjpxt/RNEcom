@@ -4,18 +4,18 @@ import Home from "../views/Home";
 import Profile from "../views/Profile";
 import Fav from "../views/Fav";
 import { createStaticNavigation } from "@react-navigation/native";
-import { Text } from "react-native";
-
+import { StyleSheet, Text } from "react-native";
 
 const Tabs = createBottomTabNavigator({
     screens: {
         Home: {
             screen: Home,
             options: {
+                headerShown: false,
                 tabBarIcon({ }) {
-                    return <Text>H</Text>
+                    return <Text style={style.iconSize}
+                    >🏠</Text>
                 },
-                tabBarBadge: 9
             }
 
         },
@@ -23,7 +23,8 @@ const Tabs = createBottomTabNavigator({
             screen: Cart,
             options: {
                 tabBarIcon({ }) {
-                    return <Text>C</Text>
+                    return <Text style={style.iconSize}
+                    >🛒</Text>
                 }
             }
         },
@@ -31,7 +32,8 @@ const Tabs = createBottomTabNavigator({
             screen: Fav,
             options: {
                 tabBarIcon({ }) {
-                    return <Text>F</Text>
+                    return <Text style={style.iconSize}
+                    >❤️</Text>
                 }
             }
         },
@@ -39,12 +41,27 @@ const Tabs = createBottomTabNavigator({
             screen: Profile,
             options: {
                 tabBarIcon({ }) {
-                    return <Text>P</Text>
+                    return <Text style={style.iconSize}
+                    >👤</Text>
                 }
             }
         },
+    },
+    screenOptions: {
+        tabBarLabelStyle: { fontSize: 16, fontWeight: "bold" },
+        tabBarStyle: { backgroundColor: "#222222ff" }, // muda a cor do fundo
+    tabBarActiveTintColor: "#fff",            // cor do texto/ícone ativo
+    tabBarInactiveTintColor: "#aaa",   
+
     }
 });
+
+const style = StyleSheet.create({
+    iconSize: {
+        fontSize: 22,
+        marginBottom: -4,
+    }
+})
 
 const TabNavigator = createStaticNavigation(Tabs);
 export default TabNavigator;

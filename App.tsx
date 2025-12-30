@@ -1,24 +1,21 @@
 import { FC } from "react";
 import AppNavigator from "./app/navigation";
 import AuthProvider from "./app/context/AuthProvider";
-// import { DefaultTheme, Theme } from "@react-navigation/native";
-// import axios from "axios";
-// import { API_URL } from "@env";
+import { StatusBar } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 interface Props { }
 
-// const AppTheme: Theme = {
-//   ...DefaultTheme,
-//   colors: {
-//     ...DefaultTheme.colors,
-//     background: "#FFF",
-//   },
-// };
-
 const App: FC<Props> = () => {
-  return <AuthProvider>
-    <AppNavigator />
-  </AuthProvider>
+  return (
+    <SafeAreaProvider>
+      <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#bf50d809' }}>
+        <AuthProvider>
+          <AppNavigator />
+        </AuthProvider>
+      </SafeAreaView>
+    </SafeAreaProvider>)
 };
 
 export default App;
