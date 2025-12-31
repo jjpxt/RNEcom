@@ -3,6 +3,8 @@ import { FlatList, Image, Text, View, StyleSheet, TouchableOpacity } from 'react
 import { StackScreenProps } from "@react-navigation/stack";
 import { AuthStackNavigator } from '../navigation/AuthNavigator';
 import client from '../../client';
+import CategoryList from '../components/CategoryList';
+import CategoryBtn from '../components/CategoryBtn';
 
 type Props = StackScreenProps<AuthStackNavigator, 'Home'>;
 
@@ -20,6 +22,7 @@ type Product = {
 
 const Home: FC<Props> = () => {
     const [products, setProducts] = useState<Product[]>([]);
+    const [categories, setCategories] = useState<string[]>([]);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -31,7 +34,17 @@ const Home: FC<Props> = () => {
             }
         };
 
+        const fetchCategories = async () => {
+            try {
+                const { data } = await client.get<{ categories: string[] }>("/product/categories");
+                setCategories(data.categories);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
         fetchProducts();
+        fetchCategories();
     }, []);
 
     const renderProduct = ({ item: product }: { item: Product }) => {
@@ -63,7 +76,13 @@ const Home: FC<Props> = () => {
     };
 
     return (
-        <View style={styles.container} >
+        <View style={styles.container}>
+            <CategoryList
+                data={categories}
+                renderItem={({ item, index }) => (
+                    <CategoryBtn active={index === 1} label={item} onPress={() => { }} />
+                )}
+            />
             <FlatList
                 data={products}
                 renderItem={renderProduct}
@@ -90,7 +109,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffffff',
         borderRadius: 16,
         overflow: 'hidden',
-        shadowColor: '#000',
+        shadowColor: '#222222ff',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 8,

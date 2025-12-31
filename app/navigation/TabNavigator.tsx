@@ -49,8 +49,8 @@ const Tabs = createBottomTabNavigator({
     },
     screenOptions: {
         tabBarLabelStyle: { fontSize: 16, fontWeight: "bold" },
-        tabBarStyle: { backgroundColor: "#222222ff" }, // muda a cor do fundo
-    tabBarActiveTintColor: "#fff",            // cor do texto/ícone ativo
+        tabBarStyle: { backgroundColor: "#222222ff" }, 
+    tabBarActiveTintColor: "#fff",          
     tabBarInactiveTintColor: "#aaa",   
 
     }
