@@ -8,7 +8,7 @@ import CategoryBtn from '../components/CategoryBtn';
 
 type Props = StackScreenProps<AuthStackNavigator, 'Home'>;
 
-type Product = {
+export type Product = {
     id: number;
     title: string;
     description: string;
@@ -23,6 +23,7 @@ type Product = {
 const Home: FC<Props> = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [categories, setCategories] = useState<string[]>([]);
+    const [selectedCategory, setSelectedCategory] = useState("All");
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -37,7 +38,7 @@ const Home: FC<Props> = () => {
         const fetchCategories = async () => {
             try {
                 const { data } = await client.get<{ categories: string[] }>("/product/categories");
-                setCategories(data.categories);
+                setCategories(["All", ...data.categories]);
             } catch (error) {
                 console.log(error);
             }
@@ -47,9 +48,23 @@ const Home: FC<Props> = () => {
         fetchCategories();
     }, []);
 
+    const handleOnCategorySelected = async (category: string) => {
+        setSelectedCategory(category);
+
+        try {
+            if (category === "All") category = "";
+
+            const { data } = await client.get<{ products: Product[] }>('/product/products/' + category);
+
+            setProducts(data.products);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const renderProduct = ({ item: product }: { item: Product }) => {
         return (
-            <TouchableOpacity activeOpacity={0.8} style={styles.card}>
+            <TouchableOpacity activeOpacity={0.8} style={styles.card} >
                 <Image
                     source={{ uri: product.poster }}
                     style={styles.image}
@@ -79,14 +94,21 @@ const Home: FC<Props> = () => {
         <View style={styles.container}>
             <CategoryList
                 data={categories}
-                renderItem={({ item, index }) => (
-                    <CategoryBtn active={index === 1} label={item} onPress={() => { }} />
+                renderItem={({ item }) => (
+                    <CategoryBtn
+                        active={selectedCategory === item}
+                        label={item}
+                        onPress={() => handleOnCategorySelected(item)}
+                    />
                 )}
             />
             <FlatList
                 data={products}
                 renderItem={renderProduct}
                 keyExtractor={(item) => item.id.toString()}
+                ListEmptyComponent={<View>
+                    <Text>Nothing to show</Text>
+                </View>}
                 contentContainerStyle={styles.list}
                 showsVerticalScrollIndicator={false}
             />
@@ -107,9 +129,9 @@ const styles = StyleSheet.create({
     },
     card: {
         backgroundColor: '#ffffffff',
-        borderRadius: 16,
+        borderRadius: 50,
         overflow: 'hidden',
-        shadowColor: '#222222ff',
+        shadowColor: '#075680ff',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 8,

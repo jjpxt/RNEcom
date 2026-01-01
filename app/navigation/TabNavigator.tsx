@@ -1,15 +1,15 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Cart from "../views/Cart";
-import Home from "../views/Home";
 import Profile from "../views/Profile";
 import Fav from "../views/Fav";
 import { createStaticNavigation } from "@react-navigation/native";
 import { StyleSheet, Text } from "react-native";
+import HomeStack from "./HomeNavigator";
 
 const Tabs = createBottomTabNavigator({
     screens: {
         Home: {
-            screen: Home,
+            screen: HomeStack,
             options: {
                 headerShown: false,
                 tabBarIcon({ }) {
@@ -49,9 +49,9 @@ const Tabs = createBottomTabNavigator({
     },
     screenOptions: {
         tabBarLabelStyle: { fontSize: 16, fontWeight: "bold" },
-        tabBarStyle: { backgroundColor: "#222222ff" }, 
-    tabBarActiveTintColor: "#fff",          
-    tabBarInactiveTintColor: "#aaa",   
+        tabBarStyle: { backgroundColor: "#222222ff" },
+        tabBarActiveTintColor: "#fff",
+        tabBarInactiveTintColor: "#aaa",
 
     }
 });
