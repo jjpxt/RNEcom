@@ -7,6 +7,7 @@ import CategoryList from '../components/CategoryList';
 import CategoryBtn from '../components/CategoryBtn';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { HomeNavigatorProps } from '../navigation/HomeNavigator'; 
 
 type Props = StackScreenProps<AuthStackNavigator, 'Home'>;
 
@@ -16,10 +17,12 @@ export type Product = {
     description: string;
     category: string;
     poster: string;
+    bulletPoints: string[];
     price: {
         mrp: number;
         sale: number;
     };
+    images?: string[];  
 };
 
 const Home: FC<Props> = () => {
@@ -64,7 +67,7 @@ const Home: FC<Props> = () => {
         }
     }
 
-    const navigation = useNavigation<NativeStackNavigationProp<AuthStackNavigator>>();
+    const navigation = useNavigation<NativeStackNavigationProp<HomeNavigatorProps>>();
 
     const renderProduct = ({ item: product }: { item: Product }) => {
         return (

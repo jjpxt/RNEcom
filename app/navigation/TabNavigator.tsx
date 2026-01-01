@@ -49,7 +49,7 @@ const Tabs = createBottomTabNavigator({
     },
     screenOptions: {
         tabBarLabelStyle: { fontSize: 16, fontWeight: "bold" },
-        tabBarStyle: { backgroundColor: "#222222ff" },
+        tabBarStyle: { backgroundColor: "#222222ff", borderRadius:25 },
         tabBarActiveTintColor: "#fff",
         tabBarInactiveTintColor: "#aaa",
 
