@@ -1,8 +1,10 @@
 import { FC } from 'react';
-import { View, Text, Image, StyleSheet, ScrollView, FlatList, Dimensions } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView, FlatList, Dimensions, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { HomeNavigatorProps } from '../navigation/HomeNavigator';
 import { Product } from '../views/Home';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const { width } = Dimensions.get('window');
 
@@ -18,10 +20,18 @@ const ProductDetail: FC<Props> = ({ route }) => {
             <Image source={{ uri: item }} style={styles.carouselImage} resizeMode="contain" />
         </View>
     );
+    const navigation = useNavigation<NativeStackNavigationProp<HomeNavigatorProps>>();
 
     return (
         <ScrollView style={styles.container}>
-            {/*  image carousel */}
+            <View style={styles.customHeader}>
+                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+                    <Text style={styles.backText}>←</Text>
+                </TouchableOpacity>
+                <Text style={styles.headerTitle}>Product Details</Text>
+                <View style={{ width: 40 }} />
+            </View>
+
             <FlatList
                 data={images}
                 renderItem={renderImage}
@@ -29,41 +39,36 @@ const ProductDetail: FC<Props> = ({ route }) => {
                 horizontal
                 pagingEnabled
                 showsHorizontalScrollIndicator={false}
-                snapToAlignment="center"
-                decelerationRate="fast"
                 style={styles.carousel}
             />
 
             <View style={styles.pagination}>
                 {images.map((_, index) => (
-                    <View
-                        key={index}
-                        style={[
-                            styles.dot,
-                        ]}
-                    />
+                    <View key={index} style={styles.dot} />
                 ))}
             </View>
 
             <View style={styles.content}>
-                <Text style={styles.title}>{product.title}</Text>
-                <Text style={styles.category}>Category: {product.category}</Text>
-                <Text style={styles.description}>{product.description}</Text>
+                <Text style={styles.title}>{product.title || 'Untitled product'}</Text>
+                <Text style={styles.category}>Category: {product.category || 'Not informed'}</Text>
+                <Text style={styles.description}>{product.description || 'No description available.'}</Text>
 
                 <View style={styles.priceContainer}>
-                    <Text style={styles.mrp}>From: ${product.price.mrp.toFixed(2)}</Text>
-                    <Text style={styles.sale}>To: ${product.price.sale.toFixed(2)}</Text>
+                    <Text style={styles.mrp}>De: ${product.price?.mrp?.toFixed(2) || '0.00'}</Text>
+                    <Text style={styles.sale}>Por: ${product.price?.sale?.toFixed(2) || '0.00'}</Text>
                 </View>
 
                 {(product.bulletPoints || []).length > 0 && (
                     <View style={styles.featuresCard}>
-                        <Text style={styles.featuresTitle}>Main features</Text>
+                        <Text style={styles.featuresTitle}>Main Features</Text>
                         {(product.bulletPoints || []).map((point, index) => (
                             <View key={index} style={styles.featureItem}>
                                 <View style={styles.checkCircle}>
                                     <Text style={styles.checkText}>✓</Text>
                                 </View>
-                                <Text style={styles.featureText}>{point}</Text>
+                                <Text style={styles.featureText}>
+                                    {typeof point === 'string' ? point : 'Feature unavailable'}
+                                </Text>
                             </View>
                         ))}
                     </View>
@@ -71,6 +76,7 @@ const ProductDetail: FC<Props> = ({ route }) => {
             </View>
         </ScrollView>
     );
+
 };
 
 const styles = StyleSheet.create({
@@ -190,6 +196,38 @@ const styles = StyleSheet.create({
         fontSize: 17,
         color: '#34495e',
         lineHeight: 26,
+    },
+    customHeader: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+        paddingTop: 10,
+        backgroundColor: '#fff',
+        elevation: 4,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+    },
+    backButton: {
+        width: 40,
+        height: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    backText: {
+        fontSize: 28,
+        color: '#333',
+    },
+    headerTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#333',
+        flex: 1,
+        textAlign: 'center',
+        marginRight: -40,
     },
 });
 

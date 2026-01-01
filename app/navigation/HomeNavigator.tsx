@@ -20,7 +20,7 @@ const HomeStack = createNativeStackNavigator<HomeNavigatorProps>({
         ProductDetail: {
             screen: ProductDetail,
             options: {
-                headerShown: true,
+                headerShown: false,
                 title: 'Product Details',
                 headerBackTitle: 'Back',
                 headerTintColor: '#333',
