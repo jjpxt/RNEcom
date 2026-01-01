@@ -1,10 +1,10 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from '../views/Home';
-import SingleProduct from '../views/SingleProduct';
+import ProductDetail from '../views/ProductDetail';
 
 export type HomeNavigatorProps = {
     Home: undefined,
-    SingleProduct: undefined,
+    ProductDetail: undefined,
 }
 
 const HomeStack = createNativeStackNavigator<HomeNavigatorProps>({
@@ -12,8 +12,8 @@ const HomeStack = createNativeStackNavigator<HomeNavigatorProps>({
         Home: {
             screen: Home,
         },
-        SingleProduct: {
-            screen: SingleProduct,
+        ProductDetail: {
+            screen: ProductDetail,
         },
     },
     screenOptions: {

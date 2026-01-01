@@ -5,6 +5,8 @@ import { AuthStackNavigator } from '../navigation/AuthNavigator';
 import client from '../../client';
 import CategoryList from '../components/CategoryList';
 import CategoryBtn from '../components/CategoryBtn';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type Props = StackScreenProps<AuthStackNavigator, 'Home'>;
 
@@ -62,9 +64,12 @@ const Home: FC<Props> = () => {
         }
     }
 
+    const navigation = useNavigation<NativeStackNavigationProp<AuthStackNavigator>>();
+
     const renderProduct = ({ item: product }: { item: Product }) => {
         return (
-            <TouchableOpacity activeOpacity={0.8} style={styles.card} >
+            <TouchableOpacity activeOpacity={0.8} style={styles.card}
+                onPress={() => navigation.navigate('ProductDetail', { product })}>
                 <Image
                     source={{ uri: product.poster }}
                     style={styles.image}
