@@ -1,10 +1,12 @@
 import { FC } from 'react';
-import { View, Text, Image, StyleSheet, ScrollView, FlatList, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView, FlatList, Dimensions, TouchableOpacity, Pressable } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { HomeNavigatorProps } from '../navigation/HomeNavigator';
 import { Product } from '../views/Home';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import PrimaryButton from '../components/PrimaryButton';
+import { useCart } from '../context/CartProvider';
 
 const { width } = Dimensions.get('window');
 
@@ -20,6 +22,8 @@ const ProductDetail: FC<Props> = ({ route }) => {
             <Image source={{ uri: item }} style={styles.carouselImage} resizeMode="contain" />
         </View>
     );
+
+    const cartContext = useCart();
     const navigation = useNavigation<NativeStackNavigationProp<HomeNavigatorProps>>();
 
     return (
@@ -54,8 +58,22 @@ const ProductDetail: FC<Props> = ({ route }) => {
                 <Text style={styles.description}>{product.description || 'No description available.'}</Text>
 
                 <View style={styles.priceContainer}>
-                    <Text style={styles.mrp}>De: ${product.price?.mrp?.toFixed(2) || '0.00'}</Text>
-                    <Text style={styles.sale}>Por: ${product.price?.sale?.toFixed(2) || '0.00'}</Text>
+                    <Text style={styles.mrp}>From: ${product.price?.mrp?.toFixed(2) || '0.00'}</Text>
+                    <Text style={styles.sale}>To: ${product.price?.sale?.toFixed(2) || '0.00'}</Text>
+                </View>
+
+                <View style={styles.buttonContainer}>
+                    <PrimaryButton title='Buy Now' style={{ flex: 1 }} />
+                    <View style={styles.actionButtonWrapper}>
+                        <Pressable style={styles.actionButton}
+                            onPress={() => cartContext?.updateCart(product, 1)}
+                        >
+                            <Text style={{ fontSize: 34, color: '#fff' }}>🛒</Text>
+                        </Pressable>
+                        <Pressable style={styles.actionButton}>
+                            <Text style={{ fontSize: 34, color: '#fff' }}>❤️</Text>
+                        </Pressable>
+                    </View>
                 </View>
 
                 {(product.bulletPoints || []).length > 0 && (
@@ -114,6 +132,7 @@ const styles = StyleSheet.create({
     },
     content: {
         padding: 20,
+
     },
     title: {
         fontSize: 32,
@@ -138,10 +157,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#fff3cd',
         paddingVertical: 12,
-        paddingHorizontal: 20,
+        paddingHorizontal: 50,
         borderRadius: 20,
         alignSelf: 'flex-start',
-        marginBottom: 30,
+        marginBottom: 1,
         elevation: 3,
     },
     mrp: {
@@ -229,6 +248,26 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginRight: -40,
     },
+    buttonContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: 10
+    },
+    actionButtonWrapper: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 10,
+        padding: 25
+    },
+    actionButton: {
+        width: 70,
+        height: 70,
+        borderRadius: 50,
+        backgroundColor: "#562861ff",
+        justifyContent: 'center',
+        alignItems: "center"
+    }
 });
 
 export default ProductDetail;

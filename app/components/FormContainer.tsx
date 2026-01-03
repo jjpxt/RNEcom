@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
     },
     navLink: {
         fontWeight: "bold",
-        // textDecorationLine: "underline",
         fontSize: 20
     }
 })

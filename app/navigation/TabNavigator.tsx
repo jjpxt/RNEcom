@@ -3,7 +3,7 @@ import Cart from "../views/Cart";
 import Profile from "../views/Profile";
 import Fav from "../views/Fav";
 import { createStaticNavigation } from "@react-navigation/native";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, } from "react-native";
 import HomeStack from "./HomeNavigator";
 
 const Tabs = createBottomTabNavigator({
@@ -22,11 +22,10 @@ const Tabs = createBottomTabNavigator({
         Cart: {
             screen: Cart,
             options: {
-                tabBarIcon({ }) {
-                    return <Text style={style.iconSize}
-                    >🛒</Text>
-                }
-            }
+                tabBarIcon: ({ color }) => (
+                    <Text style={[style.iconSize, { color }]}>🛒</Text>
+                ),
+            },
         },
         Fav: {
             screen: Fav,
@@ -49,7 +48,7 @@ const Tabs = createBottomTabNavigator({
     },
     screenOptions: {
         tabBarLabelStyle: { fontSize: 16, fontWeight: "bold" },
-        tabBarStyle: { backgroundColor: "#222222ff", borderRadius:25 },
+        tabBarStyle: { backgroundColor: "#222222ff", borderRadius: 25 },
         tabBarActiveTintColor: "#fff",
         tabBarInactiveTintColor: "#aaa",
 
