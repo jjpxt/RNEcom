@@ -38,11 +38,11 @@ const Tabs = createBottomTabNavigator({
         Profile: {
             screen: Profile,
             options: {
-                tabBarIcon({ }) {
-                    return <Text style={style.iconSize}
-                    >👤</Text>
-                }
-            }
+                headerShown: false,
+                tabBarIcon: ({ color }) => (
+                    <Text style={[style.iconSize, { color }]}>👤</Text>
+                ),
+            },
         },
     },
     screenOptions: {
