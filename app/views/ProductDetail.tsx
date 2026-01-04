@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import PrimaryButton from '../components/PrimaryButton';
 import { useCart } from '../context/CartProvider';
+import { useFavorite } from '../context/FavoriteProvider';
 
 const { width } = Dimensions.get('window');
 
@@ -14,8 +15,10 @@ type Props = StackScreenProps<HomeNavigatorProps, 'ProductDetail'>;
 
 const ProductDetail: FC<Props> = ({ route }) => {
     const { product } = route.params as { product: Product };
-
     const images = [product.poster, ...(product.images || [])];
+    const cartContext = useCart();
+    const navigation = useNavigation<NativeStackNavigationProp<HomeNavigatorProps>>();
+    const favContext = useFavorite();
 
     const renderImage = ({ item }: { item: string }) => (
         <View style={styles.slide}>
@@ -23,8 +26,6 @@ const ProductDetail: FC<Props> = ({ route }) => {
         </View>
     );
 
-    const cartContext = useCart();
-    const navigation = useNavigation<NativeStackNavigationProp<HomeNavigatorProps>>();
 
     return (
         <ScrollView style={styles.container}>
@@ -70,7 +71,9 @@ const ProductDetail: FC<Props> = ({ route }) => {
                         >
                             <Text style={{ fontSize: 34, color: '#fff' }}>🛒</Text>
                         </Pressable>
-                        <Pressable style={styles.actionButton}>
+                        <Pressable
+                            onPress={() => favContext?.updateFavorite(product)}
+                            style={styles.actionButton} >
                             <Text style={{ fontSize: 34, color: '#fff' }}>❤️</Text>
                         </Pressable>
                     </View>

@@ -1,9 +1,8 @@
 import { FC } from 'react';
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useCart } from '../context/CartProvider';
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-
 
 const Cart: FC = () => {
     const cartContext = useCart();
@@ -37,6 +36,29 @@ const Cart: FC = () => {
                         $ {item.product.price.sale.toFixed(2)}
                     </Text>
                     <Text style={styles.quantity}>Quantity: {item.count}</Text>
+
+                    <View style={styles.actions}>
+                        <TouchableOpacity
+                            style={styles.actionButton}
+                            onPress={() => cartContext?.decreaseItem(item.product.id)}
+                        >
+                            <Text style={styles.actionText}>-</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={styles.actionButton}
+                            onPress={() => cartContext?.increaseItem(item.product)}
+                        >
+                            <Text style={styles.actionText}>+</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={[styles.actionButton, styles.deleteButton]}
+                            onPress={() => cartContext?.removeFromCart(item.product.id)}
+                        >
+                            <Text style={styles.actionText}>🗑️</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
         );
@@ -51,7 +73,6 @@ const Cart: FC = () => {
                 </Text>
             </View>
 
-            {/* Lista de itens */}
             <FlatList
                 data={items}
                 renderItem={renderItem}
@@ -130,6 +151,24 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: '#666',
     },
+    actions: {
+        flexDirection: 'row',
+        marginTop: 10,
+    },
+    actionButton: {
+        backgroundColor: '#3498db',
+        padding: 10,
+        borderRadius: 8,
+        marginHorizontal: 5,
+    },
+    deleteButton: {
+        backgroundColor: '#e74c3c',
+    },
+    actionText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
     emptyContainer: {
         flex: 1,
         justifyContent: 'center',
@@ -141,10 +180,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#666',
         marginBottom: 8,
-    },
-    emptySubtext: {
-        fontSize: 16,
-        color: '#888',
     },
     emptyList: {
         flexGrow: 1,
