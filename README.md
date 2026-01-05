@@ -55,27 +55,25 @@ npm run ios
 yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+Tela de detalhes do produto com:
+Carrossel de imagens,
+Preço com desconto destacado,
+Botão de adicionar ao carrinho e favoritos.
 
-Tela de detalhes do produto com:Carrossel de imagens
-Bullet points de características
-Preço com desconto destacado
-Botão de adicionar ao carrinho e favoritos
+Carrinho de compras completo:
+Adicionar/remover produtos,
+Aumentar/diminuir quantidade (+ / -),
+Cálculo automático do total,
+Contador na tab do carrinho.
 
-Carrinho de compras completo:Adicionar/remover produtos
-Aumentar/diminuir quantidade (+ / -)
-Cálculo automático do total
-Contador na tab do carrinho
+Sistema de favoritos:
+Toggle com coração ,
+Tela dedicada com grid de produtos favoritos,
+Contador na tab,
+Navegação para detalhes ao clicar.
 
-Sistema de favoritos:Toggle com coração 
-Tela dedicada com grid de produtos favoritos
-Contador na tab
-Navegação para detalhes ao clicar
-
-Perfil do usuário com nome e email real
-Autenticação com API real (login persistente com AsyncStorage)
-Navegação com Bottom Tabs e Stack Navigator
-Design moderno com sombras, bordas arredondadas e cores consistentes
-
+Perfil do usuário com nome e email real,
+Autenticação com API real (login persistente com AsyncStorage),
+Navegação com Bottom Tabs e Stack Navigator,
+Design moderno com sombras, bordas arredondadas e cores consistentes.
