@@ -1,8 +1,5 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+RNEcom é um aplicativo mobile de e-commerce completo desenvolvido com React Native e Expo. O projeto foi construído do zero com foco em boas práticas, arquitetura limpa, UI moderna e funcionalidades reais de uma loja online.
 
-# Getting Started
-
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
 
 ## Step 1: Start Metro
 
