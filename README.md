@@ -1,4 +1,4 @@
-RNEcom é um aplicativo mobile de e-commerce completo desenvolvido com React Native e Expo. O projeto foi construído do zero com foco em boas práticas, arquitetura limpa, UI moderna e funcionalidades reais de uma loja online.
+# RNEcom é um aplicativo mobile de e-commerce completo desenvolvido com React Native e Expo. O projeto foi construído do zero com foco em boas práticas, arquitetura limpa, UI moderna e funcionalidades reais de uma loja online.
 
 
 ## Step 1: Start Metro
